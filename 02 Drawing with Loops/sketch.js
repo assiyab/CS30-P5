@@ -8,8 +8,8 @@ let xPos, yPos;   //decleration only...
 
 function setup() {
   createCanvas(400, 300);
-  xPos = [width*0.05, height*0.95, width*0.05, height*0.05,];
-  yPos = [width*0.95, height*0.05, width*0.95, height*0.05,];
+  xPos = [width*0.05, height*0.95, width*0.05, height*0.95,];
+  yPos = [width*0.95, height*0.05, width*0.95, height*0.95,];
 }
 
 function draw() {
