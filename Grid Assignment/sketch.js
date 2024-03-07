@@ -14,41 +14,44 @@ function setup() {
   x = width/2
   y = height/2
   document.addEventListener("contextmenu", event => event.preventDefault())
-  colourGrid();
-  redraw();
   colorMode(RGB, 150);
-  
+  noLoop();
+  redraw(); 
 }
 
-//function draw() {
-  //draws columns and rows that will be spaced apart to make squares
-  //for( let rectWidth = 0; x > rectWidth; rectWidth++){
-    //for( let rectHeight = 0; y > rectHeight; rectHeight++){
-     // fill(random(255), random(255), random(255));
-      //rect(rectWidth * squareSize, rectHeight * squareSize, squareSize)
-      
-    //}  
- // }
-  //noLoop();
-//}
+function draw() {
+  colourGrid();
+  }
+
+// if right mouse click - bigger
+// if left mouse click - smaller
 function mousePressed(){
   if(mouseButton === RIGHT){
     squareSize = squareSize / 0.5;  
+    //stops before so all squares fir perfectly on screen, none falling off edge
+    if(squareSize >= 200){
+      if(mouseButtom === RIGHT){
+        colourGrid();
+      }
+    } 
   }     
 
   else if(mouseButton === LEFT){
     squareSize = squareSize * 0.5 ;
+
   }
+  colourGrid();
+} 
 
-}
-
+// if the space key pressed, change the colour
 function keyPressed(){
   if(keyCode === 32){
+    redraw();
     fill(random(255), random(255), random(255));
   } 
-  
 }
 
+//what darws the gird, later called in draw 
 function colourGrid(){
   for( let rectWidth = 0; x > rectWidth; rectWidth++){
     for( let rectHeight = 0; y > rectHeight; rectHeight++){
@@ -57,7 +60,6 @@ function colourGrid(){
 
     }
   } 
-
+  noLoop();
 }
-
 
