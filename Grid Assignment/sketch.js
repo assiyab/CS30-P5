@@ -14,6 +14,8 @@ function setup() {
   x = width/2
   y = height/2
   document.addEventListener("contextmenu", event => event.preventDefault())
+  // no loop and deraw have to be enabled so that the screen is properly refreshed 
+  // and displaying current actions based on user interaction
   colorMode(RGB, 150);
   noLoop();
   redraw(); 
@@ -31,24 +33,22 @@ function mousePressed(){
     //stops before so all squares fir perfectly on screen, none falling off edge
     if(squareSize >= 200){
       if(mouseButtom === RIGHT){
-        colourGrid();
+        colourGird();
       }
+
     } 
   }     
 
   else if(mouseButton === LEFT){
     squareSize = squareSize * 0.5 ;
-
+    colourGrid();
   }
-  colourGrid();
 } 
 
 // if the space key pressed, change the colour
 function keyPressed(){
-  if(keyCode === 32){
-    redraw();
-    fill(random(255), random(255), random(255));
-  } 
+  redraw();
+  fill(random(255), random(255), random(255));
 }
 
 //what darws the gird, later called in draw 
