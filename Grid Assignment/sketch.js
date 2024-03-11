@@ -1,7 +1,7 @@
 // Grid Project
 // Assiya Boulfiza
 // March 1st
-// A grid of multiple squares with colours that change with every mouse click
+// A grid of multiple squares with colours that change with every mouse click and have a similar colour scheme 
 
 let x;
 let y;
@@ -11,55 +11,54 @@ let squareSize = 25;
 
 function setup() {
   createCanvas(500, 500);
-  x = width/2
-  y = height/2
   document.addEventListener("contextmenu", event => event.preventDefault())
   // no loop and deraw have to be enabled so that the screen is properly refreshed 
   // and displaying current actions based on user interaction
-  colorMode(RGB, 150);
-  noLoop();
-  redraw(); 
+  colourGrid();
 }
 
-function draw() {
-  colourGrid();
+
+//what darws the gird, called in setup
+function colourGrid() {
+  // x and y act as columns and rows across srawing 25 sized squares 
+  for (let x = 0; x < width; x += squareSize) {
+    for (let y = 0; y < height; y += squareSize) {
+      fill(random(204, 255), random(153, 255), random(170, 255));
+      rect(x, y, squareSize);
+
+    }
   }
+}
+
 
 // if right mouse click - bigger
 // if left mouse click - smaller
-function mousePressed(){
-  if(mouseButton === RIGHT){
-    squareSize = squareSize / 0.5;  
-    //stops before so all squares fir perfectly on screen, none falling off edge
-    if(squareSize >= 200){
-      if(mouseButto m === RIGHT){
-        colourGird();
-      }
+function mousePressed() {
+  if (mouseButton === RIGHT) {
+    //stops before falling off gris
+    if( squareSize < 200){
+      //square gets larger with every right click
+      squareSize = squareSize / 0.5;
+      colourGrid();
+    }
 
-    } 
-  }     
-
-  else if(mouseButton === LEFT){
-    squareSize = squareSize * 0.5 ;
-    colourGrid();
   }
-} 
-
-// if the space key pressed, change the colour
-function keyPressed(){
-  redraw();
-  fill(random(100, 255), random(150, 255), random(200, 255));
+  
+  else if (mouseButton === LEFT) {
+    if(squareSize > 6.25) {
+      //square gets smaller with each left click
+      squareSize = squareSize * 0.5;
+      colourGrid();
+    }
+    
+  }    
+    
 }
 
-//what darws the gird, later called in draw 
-function colourGrid(){
-  for( let rectWidth = 0; x > rectWidth; rectWidth++){
-    for( let rectHeight = 0; y > rectHeight; rectHeight++){
-      fill(random(255), random(255), random(255));
-      rect(rectWidth * squareSize, rectHeight * squareSize, squareSize)
-
-    }
-  } 
-  noLoop();
+// if the space key pressed, change the colour/order of the grid
+function keyPressed() {
+  if(keyCode === 32){
+    colourGrid();
+  }
 }
 
