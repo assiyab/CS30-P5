@@ -32,7 +32,7 @@ function mousePressed(){
     squareSize = squareSize / 0.5;  
     //stops before so all squares fir perfectly on screen, none falling off edge
     if(squareSize >= 200){
-      if(mouseButtom === RIGHT){
+      if(mouseButto m === RIGHT){
         colourGird();
       }
 
@@ -48,7 +48,7 @@ function mousePressed(){
 // if the space key pressed, change the colour
 function keyPressed(){
   redraw();
-  fill(random(255), random(255), random(255));
+  fill(random(100, 255), random(150, 255), random(200, 255));
 }
 
 //what darws the gird, later called in draw 
