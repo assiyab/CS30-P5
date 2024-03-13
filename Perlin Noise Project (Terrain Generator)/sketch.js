@@ -11,30 +11,54 @@ function setup() {
   rectMode(CORNERS);
 }
 
-function terrain(){
+function terrain() {
   time = 0;
   let x = 0;
-  while(x < width){
+  let highest = 0;
+  //let xHighest = 0;
+  while (x < width) {
     rectHeight = noise(time);
     rectHeight = map(rectHeight, 0, 1, 0, height * 0.90);
-    time += 0.005;
-    rect(x, height, x + rectWidth, height - rectHeight);
-    x += rectWidth;
+    if (rectHeight > highest) {
+       highest = rectHeight;
+      //if (rectWidth < highest){
+       
+    } //}
   }
+  time += 0.005;
+  fill(0);
+  rect(x, height, x + rectWidth, height - rectHeight);
+  x += rectWidth;
 }
+
 
 function draw() {
   background(220);
   terrain();
+  findPeak();
 }
 
-function keyPressed(){
-  if( keyCode === RIGHT_ARROW){
-    // if statement here
-    rectWidth = rectWidth + 0.5;
+function keyPressed() {
+  if (keyCode === RIGHT_ARROW) {
+    if (rectWidth <= 3.5) {
+      rectWidth = rectWidth + 0.5;
+    }
   }
-  else if(keyCode === LEFT_ARROW){
-    // do a rect minimum and maximum width 
-    rectWidth = rectWidth - 0.5;
+
+  else if (keyCode === LEFT_ARROW) {
+    if (rectWidth >= 1) {
+      rectWidth = rectWidth - 0.5;
+    }
   }
+}
+
+function findPeak() {
+
+}
+
+
+function drawFlag(x, y) {
+  fill(0);
+  rect()
+
 }
