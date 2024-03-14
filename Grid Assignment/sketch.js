@@ -12,6 +12,7 @@ let squareSize = 20;
 function setup() {
   createCanvas(511, 511);
   document.addEventListener("contextmenu", event => event.preventDefault())
+  // will be needed in mouse click functions
   background(255);
   colourGrid();
 }
@@ -44,6 +45,7 @@ function mousePressed() {
     //before square gets too big and falls off canvas
     if (squareSize < 100) {
       squareSize = squareSize / 0.5;
+      // covers all of the squares that will not be drawn fully
       background(255);
       colourGrid();
     }  
