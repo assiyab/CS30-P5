@@ -5,37 +5,66 @@
 
 let rectWidth = 2;
 let rectHeight;
+let highest = 0;
+let widest = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   rectMode(CORNERS);
 }
 
+
+function highestY(){
+  if(rectHeight > highest){
+    highest = rectHeight;
+  }
+
+}
+
+function highestX(){
+  if(rectHeight > highest){
+    widest = widest*2;
+  }
+}
+
 function terrain() {
-  time = 0;
+  let time = 0;
   let x = 0;
-  let highest = 0;
-  //let xHighest = 0;
+
   while (x < width) {
     rectHeight = noise(time);
     rectHeight = map(rectHeight, 0, 1, 0, height * 0.90);
-    if (rectHeight > highest) {
-       highest = rectHeight;
-      //if (rectWidth < highest){
-       
-    } //}
+    time += 0.005;
+    fill(0);
+    rect(x, height, x + rectWidth, height - rectHeight);
+    x += rectWidth;
+    highestY();
+    highestX();
+    drawFlag(200,200)
   }
-  time += 0.005;
-  fill(0);
-  rect(x, height, x + rectWidth, height - rectHeight);
-  x += rectWidth;
+  
 }
+
+
+function drawFlag(x, y) {
+  let poleHeight = 50; // Height of the flag pole
+  let flagSize = 20; // Size of the flag
+  // Draw flag pole
+  fill(139, 69, 19); // Brown color for the pole
+  rect(x, y, x + 5, y - poleHeight);
+  // Draw flag
+  fill(255, 0, 0); // Red color for the flag
+  rect(x, y - poleHeight, x + flagSize, y - poleHeight - flagSize);
+}
+
 
 
 function draw() {
   background(220);
   terrain();
-  findPeak();
+  highestY();
+  highestX();
+  drawFlag();
 }
 
 function keyPressed() {
@@ -52,13 +81,6 @@ function keyPressed() {
   }
 }
 
-function findPeak() {
-
-}
 
 
-function drawFlag(x, y) {
-  fill(0);
-  rect()
 
-}
