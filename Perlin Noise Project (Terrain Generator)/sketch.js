@@ -65,7 +65,7 @@ function draw() {
   highestY();
   highestX();
   drawFlag();
-}
+}cre
 
 function keyPressed() {
   if (keyCode === RIGHT_ARROW) {
