@@ -32,19 +32,19 @@ function terrain() {
   let x = 0;
 
   while (x < width) {
-    rectHeight = noise(time);
-    rectHeight = map(rectHeight, 0, 1, 0, height * 0.90);
-    time += 0.005;
+    rectHeight = noise(time + scrollSpeed); // Update noise input with xOffset
+    rectHeight = map(rectHeight, 0, 1, 0, height * 0.9);
+    time += 0.05;
+    scrollSpeed += 0.0001;
     fill(0);
     rect(x, height, x + rectWidth, height - rectHeight);
     x += rectWidth;
     highestY();
     highestX();
-    drawFlag(200,200)
-  }
-  
-}
 
+    drawFlag(highestX, highestY); // parameters will be heightY and heightX, which is the tallest peak in the mountain/hill.
+  }
+}
 
 function drawFlag(x, y) {
   let poleHeight = 50; // Height of the flag pole
@@ -65,7 +65,7 @@ function draw() {
   highestY();
   highestX();
   drawFlag();
-}cre
+}
 
 function keyPressed() {
   if (keyCode === RIGHT_ARROW) {
