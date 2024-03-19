@@ -32,7 +32,7 @@ function terrain() {
   let x = 0;
 
   while (x < width) {
-    rectHeight = noise(time + scrollSpeed); // Update noise input with xOffset
+    rectHeight = noise(time + scrollSpeed); // Update noise input with scrollspeed
     rectHeight = map(rectHeight, 0, 1, 0, height * 0.9);
     time += 0.05;
     scrollSpeed += 0.0001;
