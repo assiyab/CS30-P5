@@ -7,6 +7,11 @@ let rectWidth = 2;
 let rectHeight;
 let highest = 0;
 let widest = 0;
+let highestXCoord = 0;
+let highestYCoord = 0;
+let x = 0;
+let scrollSpeed = 0;
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -27,22 +32,31 @@ function highestX(){
   }
 }
 
+
 function terrain() {
   let time = 0;
   let x = 0;
 
   while (x < width) {
-    rectHeight = noise(time + scrollSpeed); // Update noise input with scrollspeed
-    rectHeight = map(rectHeight, 0, 1, 0, height * 0.9);
-    time += 0.05;
     scrollSpeed += 0.0001;
+    rectHeight = noise(time - scrollSpeed); 
+    rectHeight = map(rectHeight, 0, 1, 0, height * 0.8);
+    time += 0.005;
     fill(0);
+    noStroke();
     rect(x, height, x + rectWidth, height - rectHeight);
     x += rectWidth;
     highestY();
     highestX();
 
-    drawFlag(highestX, highestY); // parameters will be heightY and heightX, which is the tallest peak in the mountain/hill.
+    
+    if(rectHeight >= highest){
+      highest = rectHeight
+      highestXCoord = x;
+      highestYCoord = height - rectHeight;
+    }
+    noStroke();
+    drawFlag(highestXCoord, highestYCoord); // parameters will be heightYcord and heightXcord, which is the tallest peak in the mountain/hill.
   }
 }
 
@@ -50,13 +64,23 @@ function drawFlag(x, y) {
   let poleHeight = 50; // Height of the flag pole
   let flagSize = 20; // Size of the flag
   // Draw flag pole
-  fill(139, 69, 19); // Brown color for the pole
+  fill(0);
   rect(x, y, x + 5, y - poleHeight);
   // Draw flag
-  fill(255, 0, 0); // Red color for the flag
   rect(x, y - poleHeight, x + flagSize, y - poleHeight - flagSize);
 }
 
+function averageLine(){
+  let totalHeight = 0;
+  let peakCount = width/ rectWidth;
+
+  for(let i = 0; i < peakCount; i ++){
+    totalHeight += noise (i * scrollSpeed);
+  }
+  let averageHeight = map(totalHeight / peakCount, 0, 1, 0, height * 0.8);
+  stroke(255, 0, 0); // set horizontal line to red
+  line(0, height - averageHeight, width, height - averageHeight); // draws a red horizontal line based on the positions of the previous calculations we made to find the average peak height 
+}
 
 
 function draw() {
@@ -64,7 +88,7 @@ function draw() {
   terrain();
   highestY();
   highestX();
-  drawFlag();
+  averageLine();
 }
 
 function keyPressed() {
