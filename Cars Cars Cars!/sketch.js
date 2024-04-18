@@ -3,40 +3,45 @@
 // April 11, 2024
 // using classes and arrays and calling objects in different arrays.
 
+//global variables
 let eastBound = [];
 let westBound = [];
-let vehicles = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  for (let i = 0; i < 20; i++) {
-    let laneY = random(height/4, height*0.45);
-    let car = new Vehicle(random(width), laneY, color(random(255), random(255), random(255)), 1);
-    eastBound.push(car);
-    laneY = random(height/2, 2*height/3)
+  for (let i = 0; i < 20; i++) { // generates 20 cars at a time
+    let laneY = random(height/4, height*0.45); // cars do not go over the lane and into other traffic on the bottom lane
+    let car = new Vehicle(random(width), laneY, color(random(255), random(255), random(255)), 1); //generates new cars
+    eastBound.push(car); // generates cars coming from east/left to right to make 2 way traffic
+    laneY = random(height/2, 2*height/3) // also keeps cars in their own lane on the top lane
     car = new Vehicle(random(width), laneY, color(random(255), random(255), random(255)), - 1);
-    westBound.push(car);
+    westBound.push(car); // car coming from west/ go from right to left
     
   }
 }
 
 function draw() {
   background(220);
-  drawRoad();
+  drawRoad(); // draws the road
+  // used to keep all of the cars moving 
   for(let i = 0; i < eastBound.length; i ++){
-    eastBound[i].action();
+     eastBound[i].action();
+    if(mouseClicked){
+      if(mouseButton === LEFT){
+      }
+    }
   }
   for(let i = 0; i < westBound.length; i ++){
     westBound[i].action();
   }
 }
 class Vehicle {
-  constructor(x, y, color, direction) {
+  constructor(x, y, color, direction) { //necessary parameters 
     this.x = x;
     this.y = y;
-    this.type = Math.floor(Math.random() * 2); // 0 for car, 1 for truck
+    this.type = Math.floor(Math.random() * 2); // 0 for car, 1 for truck will gove those 2 possibilities
     this.direction = direction;
-    this.xspeed = random(1, 5)*this.direction;
+    this.xspeed = random(1, 5)*this.direction; //all cars going random speed based on their generated number
     this.c = color;
   }
 
@@ -45,12 +50,13 @@ class Vehicle {
     if (this.type === 0) {
       rect(this.x, this.y, 50, 30); // Car, add position x and y
     } else if (this.type === 1) {
-      rect(this.x, this.y, 80, 40); // Truck
+      rect(this.x, this.y, 80, 40); // Truck, position x and y
     }
   }
 
   move() {
-    this.x += this.xspeed;
+    this.x += this.xspeed; //move cars
+    // if cars fall off of screen, then new ones will be drawn at the start or end depending on which lane it is in 
     if (this.x > width && this.direction === 1 ) {
       this.x = -50;
     } else if (this.x < -50 && this.direction === -1) {
@@ -62,12 +68,12 @@ class Vehicle {
 
   speedUp(){
     if(this.xspeed < 15 && this.xspeed > -15)
-    this.xpseed += this.direction*0.5
+    this.xspseed += this.direction*0.5
   }
 
   speedDown(){
     if(this.xspeed > 0.5 && this.speed < -0.5){
-      this.xpseed -= this.direction*2
+      this.xspseed -= this.direction*2
     }
   }
 
@@ -75,7 +81,7 @@ class Vehicle {
     this.c = color(random(255), random(255), random(255));
   }
 
-  action(){
+  action(){ // calls all of the features shown in classes and enables them to show their values
     this.move();
     if(random(100) < 1){
       this.speedUp();
@@ -86,7 +92,7 @@ class Vehicle {
     }
 
     if(random(100) < 1){
-      this.changeColor
+      this.changeColor();
     }
     
     this.display();
