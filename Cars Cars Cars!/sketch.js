@@ -1,11 +1,11 @@
 // Cars Cars Cars!
 // Assiya Boulfiza
 // April 11, 2024
-// using classes and arrays and calling objects in different arrays.
+// using classes and arrays and calling cars in different arrays.
 
 //global variables
-let eastBound = [];
-let westBound = [];
+let eastBound = []; // left to right
+let westBound = []; //right to left
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -13,6 +13,11 @@ function setup() {
     let laneY = random(height/4, height*0.45); // cars do not go over the lane and into other traffic on the bottom lane
     let car = new Vehicle(random(width), laneY, color(random(255), random(255), random(255)), 1); //generates new cars
     eastBound.push(car); // generates cars coming from east/left to right to make 2 way traffic
+    //  if(mouseClicked){
+    //    if(mouseButton === LEFT){
+    //      eastBound.push(car);
+    //   }
+    // }
     laneY = random(height/2, 2*height/3) // also keeps cars in their own lane on the top lane
     car = new Vehicle(random(width), laneY, color(random(255), random(255), random(255)), - 1);
     westBound.push(car); // car coming from west/ go from right to left
@@ -26,10 +31,6 @@ function draw() {
   // used to keep all of the cars moving 
   for(let i = 0; i < eastBound.length; i ++){
      eastBound[i].action();
-    if(mouseClicked){
-      if(mouseButton === LEFT){
-      }
-    }
   }
   for(let i = 0; i < westBound.length; i ++){
     westBound[i].action();
@@ -73,7 +74,7 @@ class Vehicle {
 
   speedDown(){
     if(this.xspeed > 0.5 && this.speed < -0.5){
-      this.xspseed -= this.direction*2
+      this.xspseed += this.direction*0.5
     }
   }
 
