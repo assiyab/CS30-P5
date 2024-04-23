@@ -25,6 +25,21 @@ function setup() {
   }
 }
 
+function mouseClicked(){
+  // if user does a left mouseclick then one eastbound car will pop up, if they do a left mouse click and press shift, then one new westbound car will popup
+  if(mouseButton === LEFT){
+    let laneY = random(height/4, height*0.45); 
+    let car = new Vehicle(random(width), laneY, color(random(255), random(255), random(255)), 1); 
+    eastBound.push(car);
+  }
+
+  else if(mouseButton === LEFT && keyIsDown(SHIFT)){
+    laneY = random(height/2, 2*height/3) 
+    car = new Vehicle(random(width), laneY, color(random(255), random(255), random(255)), - 1);
+    westBound.push(car);
+  }
+}
+
 function draw() {
   background(220);
   drawRoad(); // draws the road
