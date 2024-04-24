@@ -30,8 +30,26 @@ function draw() {
   getCurrentX();
 }
 
+
 function mousePressed(){
-  flip(col, row);
+ 
+  if(mouseIsPressed && keyIsDown(SHIFT)){
+    flip(col, row);
+  }
+  else{
+    flip(col, row);
+
+  //depends a bit on position: flip 4 neighbours
+  if(row < NUM_ROWS - 1) flip(col, row + 1); //top
+  }
+
+  //only do something is mouseX, mouseY are on Canvas...
+
+  //always: flip the "current" tile
+  //flip(col, row);
+
+  //depends a bit on position: flip 4 neighbours
+  //if(row < NUM_ROWS - 1) flip(col, row + 1); //top
 }
 
 function flip(x, y){
