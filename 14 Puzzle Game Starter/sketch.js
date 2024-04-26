@@ -1,9 +1,11 @@
 // Puzzle Game Starter
 // Assiya Boulfiza
 // April 23, 2024
-// 
+// Making a puzzle that takes in user input and resets each time and can help predit how good 
+//your next move can be based on what you hover over
 
-let pattern = "cross";
+
+//let pattern = "plus"
 
 let grid = 
 [   [0,   255,  0,  255,  0],
@@ -46,19 +48,12 @@ function mousePressed(){
     flip(col, row);
   }
   else{
+     //always: flip the "current" tile
     flip(col, row);
 
   //depends a bit on position: flip 4 neighbours
   if(row < NUM_ROWS - 1) flip(col, row + 1); //top
   }
-
-  //only do something is mouseX, mouseY are on Canvas...
-
-  //always: flip the "current" tile
-  //flip(col, row);
-
-  //depends a bit on position: flip 4 neighbours
-  //if(row < NUM_ROWS - 1) flip(col, row + 1); //top
   
 }
 
@@ -81,65 +76,58 @@ function drawGrid(){
     for(let x = 0; x < NUM_COLS; x++){
       let fillValue = grid[y][x];
       fill(fillValue);
-      
-      // if (pattern === "cross") {
+
+      // if (pattern === "plus") {
       //   if (x === col || y === row) {
-      //     fill(0, 255, 0); 
-      //   } else {
-      //     fill(fillValue);
+      //     fill(0, 255, 0);
       //   }
       // } else if (pattern === "square") {
-      //   if (abs(x - col) <= 1 && abs(y - row) <= 1) {
+      //   if ((x - col) && (y - row)) {
       //     fill(0, 255, 0);
-      //   } else {
-      //     fill(fillValue);
       //   }
-      // } else {
-      //   fill(fillValue);
       // }
+
       square(x * squareSize, y * squareSize, squareSize);
     }
   }
 }
 
-
 function checkWinCondition() {
-  let allZeroes = false;
-  let allOnes = false;
+  //initilaize it to true 
+  let allZeroes = true;
+  let allOnes = true;
 
   for(let y = 0; y < NUM_ROWS; y++){
     for(let x = 0; x < NUM_COLS; x++){
-      if(grid[y][x] === 0) {
-        allZeroes = true;
+      //if not all zero's are equal to or set to zero then it is false, otherwise 
+      // the statment will remain true and you will win
+      if(grid[y][x] !== 0) {
+        allZeroes = false;
       }
-      if(grid[y][x] === 255) {
-        allOnes = true;
+      if(grid[y][x] !== 255) {
+        //same thing here as with zeros
+        allOnes = false;
       }
-      
     }
-    
   }
-  
-  if(allZeroes || allOnes === grid[y][x]) {
-        print("You Win");
-    }
+  //if all either is true, print you win on screen
+  if(allZeroes || allOnes === true) {
+    textSize(40);
+    fill(160, 32, 240);
+    text("You Win!!!", 30, 110);
+  }
 }
 
 
 function randomGrid() {
+  //for the whole grid set the colors different everytime for each square, will be later 
+  //called in setup so everytime the user goes to play the game, the puzzle is reset.
   for (let y = 0; y < NUM_ROWS; y++) {
     for (let x = 0; x < NUM_COLS; x++) {
-      grid[y][x] = random(grid[x][y]);
+      grid[y][x] = random([0, 255]); 
     }
   }
 }
 
-// function keyPressed() {
-//   if (key === " ") {
-//     if (pattern === "cross") {
-//       pattern = "square";
-//     } else {
-//       pattern = "cross";
-//     }
-//   }
-// }
+
+
