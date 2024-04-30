@@ -5,7 +5,6 @@
 //your next move can be based on what you hover over
 
 
-//let pattern = "plus"
 
 let grid = 
 [   [0,   255,  0,  255,  0],
@@ -77,17 +76,25 @@ function drawGrid(){
       let fillValue = grid[y][x];
       fill(fillValue);
 
-      // if (pattern === "plus") {
-      //   if (x === col || y === row) {
-      //     fill(0, 255, 0);
-      //   }
-      // } else if (pattern === "square") {
-      //   if ((x - col) && (y - row)) {
-      //     fill(0, 255, 0);
-      //   }
+      
+      // if (x === col && y === row) {
+      //   fill(0, 255, 0); //green color on whatever square we hover on 
+      // } else {
+      //   fill(fillValue);
       // }
 
       square(x * squareSize, y * squareSize, squareSize);
+
+      if( abs(y - row) <= 1 && x === col){
+        fill(0, 255, 0, 100);
+        square(x * squareSize, y * squareSize, squareSize);
+      }
+      if( y === row && abs(x - col) <=1 ){
+        fill(0, 255, 0, 100);
+        square(x * squareSize, y * squareSize, squareSize);
+      }
+
+      
     }
   }
 }
