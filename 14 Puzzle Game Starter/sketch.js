@@ -4,7 +4,7 @@
 // Making a puzzle that takes in user input and resets each time and can help predit how good 
 //your next move can be based on what you hover over
 
-
+let pattern = "cross"
 
 let grid = 
 [   [0,   255,  0,  255,  0],
@@ -22,7 +22,6 @@ let col;
 
 function setup() {
   createCanvas(NUM_COLS*squareSize, NUM_ROWS*squareSize);
-  //keyPressed();
   randomGrid();
 }
 
@@ -53,7 +52,6 @@ function mousePressed(){
   //depends a bit on position: flip 4 neighbours
   if(row < NUM_ROWS - 1) flip(col, row + 1); //top
   }
-  
 }
 
 function getCurrentX(){
@@ -76,25 +74,28 @@ function drawGrid(){
       let fillValue = grid[y][x];
       fill(fillValue);
 
+
+      square(x*squareSize, y*squareSize, squareSize);
       
-      // if (x === col && y === row) {
-      //   fill(0, 255, 0); //green color on whatever square we hover on 
-      // } else {
-      //   fill(fillValue);
-      // }
-
-      square(x * squareSize, y * squareSize, squareSize);
-
-      if( abs(y - row) <= 1 && x === col){
-        fill(0, 255, 0, 100);
-        square(x * squareSize, y * squareSize, squareSize);
-      }
-      if( y === row && abs(x - col) <=1 ){
-        fill(0, 255, 0, 100);
-        square(x * squareSize, y * squareSize, squareSize);
+      //2 pattern options that will later on be used in keypressed function
+      if(pattern === "cross"){
+        if( abs(y - row) <= 1 && x === col){
+          fill(0, 255, 0, 100); //transparent green
+          square(x * squareSize, y * squareSize, squareSize);
+        }
+        if( y === row && abs(x - col) <=1 ){
+          fill(0, 255, 0, 100);
+          square(x * squareSize, y * squareSize, squareSize);
+        }
       }
 
-      
+      if(pattern === "square"){
+        // x is set to plus one, same with y so 4 blocks will be coloured in the shape of a square
+        if ((x === col || x === col + 1) && (y === row || y === row + 1)) {
+          fill(0, 255, 0, 100);
+          square(x*squareSize, y*squareSize, squareSize);
+        }
+      }
     }
   }
 }
@@ -117,11 +118,11 @@ function checkWinCondition() {
       }
     }
   }
-  //if all either is true, print you win on screen
+  //if either is true, print you win on screen
   if(allZeroes || allOnes === true) {
     textSize(40);
     fill(160, 32, 240);
-    text("You Win!!!", 30, 110);
+    text("You Win!!!", 33, 110);
   }
 }
 
@@ -136,5 +137,13 @@ function randomGrid() {
   }
 }
 
-
-
+function keyPressed() {
+  //alternate between 2 possible patterns if the spacebar is pressed
+  if (keyCode === 32) {
+    if (pattern === "cross") {
+      pattern = "square";
+    } else {
+      pattern = "cross";
+    }
+  }
+}
