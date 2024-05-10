@@ -79,6 +79,9 @@ function drawGrid(){
       
       //2 pattern options that will later on be used in keypressed function
       if(pattern === "cross"){
+        //green highlight will be set to mouseposition and the absolute value of x, which results to right to the left
+        //and one at bottom, same with y but one is up and other is down to represent the absolute values
+        //based on where the user is about to click
         if( abs(y - row) <= 1 && x === col){
           fill(0, 255, 0, 100); //transparent green
           square(x * squareSize, y * squareSize, squareSize);
@@ -90,7 +93,8 @@ function drawGrid(){
       }
 
       if(pattern === "square"){
-        // x is set to plus one, same with y so 4 blocks will be coloured in the shape of a square
+        //x is set mouseposition to plus one, same with y so 4 blocks will be coloured in the shape of a square, one to the right for x position
+        //and down for the y position 
         if ((x === col || x === col + 1) && (y === row || y === row + 1)) {
           fill(0, 255, 0, 100);
           square(x*squareSize, y*squareSize, squareSize);
