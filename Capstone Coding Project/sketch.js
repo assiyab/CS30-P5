@@ -1,4 +1,4 @@
-// Notes App
+// Note taking App
 // Assiya Boulfiza and Tanya Bhardwaj
 // May 14, 2024
 // 
