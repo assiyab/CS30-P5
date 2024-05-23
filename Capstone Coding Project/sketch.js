@@ -20,30 +20,27 @@
 
 // console.log(quote);
 
-let table;
-let afinn = {};
-
-function preload(){
-  table = loadTable('AFINN-111.txt', 'tsv');
-}
+let bgSound1;
+let bgSound2;
+let bgSound3;
+let bgSound4;
 
 let stars = [];
 let stickyNote = { active: false, x: 0, y: 0 };
 
+function preload(){
+  bgSound1 = loadSound("Songs/SpringSnow.mp3");
+  bgSound2 = loadSound("Songs/AllDay.mp3");
+  bgSound3 = loadSound("Songs/Happier.mp3");
+  bgSound4 = loadSound("Songs/FirstLove.mp3");
+
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
-  console.log(table);
-  for(let i = 0; i < table.getRowCount(); i ++){
-    let row = table.getRow(i);
-    let word = row.get(0);
-    let score = row.get(1);
-
-    afinn[word] = score;
-  }
-
-  console.log(afinn);
-  //save(afinn, 'affinb11.json');
+  
+  
 
   for (let i = 0; i < 50; i++) {
     let x = random(width);
@@ -51,10 +48,13 @@ function setup() {
     let size = random(1, 3);
     stars.push({ x: x, y: y, size: size });
   }
+  
+   
 }
 
 function draw() {
   background(0);
+ 
   
   for (let star of stars) {
     fill(255);
@@ -70,7 +70,7 @@ function draw() {
 function mouseClicked() {
   for (let star of stars) {
     let d = dist(mouseX, mouseY, star.x, star.y);
-    if (d < star.size / 2) { //possible bug/error
+    if (d < star.size / 2) {
       stickyNote.active = true;
       stickyNote.x = star.x;
       stickyNote.y = star.y;
@@ -85,49 +85,118 @@ function keyPressed() {
     }
   }
 }
+
 function showStickyNote() {
-  //let noteWidth = width - stickyNote.x - 10; //  width dynamically
-  //let noteHeight = height - stickyNote.y - 10; // height dynamically
 
   fill('#FFC0CB');
   rect(0, 0, windowWidth, windowHeight);
   fill(0);
   textSize(16);
-  createButtons();
   //text("Submit your commit of the day", stickyNote.x + 10, stickyNote.y + 30); 
+  createButtons(); 
 }
 
-function mouseIsPressed(){
-  if(createButtons === "true"){
-    if(journalBtn === "true"){
-      journal();
-    }
-    else{
-      quoteGenerator();
-    }
-  }
+
+
+function openJournal() {
+  let journalEntry = createInput(''); // Create a text input field
+  journalEntry.position(20, 50); // Position the text input field
+  journalEntry.size(200, 100); // Set the size of the text input field
+
+  let submitButton = createButton('Submit'); // Create a submit button
+  submitButton.position(20, 160); // Position the submit button
+
+  submitButton.mousePressed(() => {
+    let entry = journalEntry.value(); // Get the text entered by the user
+    // Save the journal entry or perform any desired action with the text
+    console.log('Journal Entry:', entry);
+    journalEntry.remove(); // Remove the text input field after submission
+    submitButton.remove(); // Remove the submit button after submission
+  });
 }
 
-function createButtons() {
-  let journalBtn = createButton('Journal For the Day');
-  journalBtn.position(430, height - 100);
-  journalBtn.style('background-color', '#C8A2C8');
-  journalBtn.style('border-radius', '10px');
-  journalBtn.style('font-size', '16px');
+// function displayQuote() {
+// }
 
-  let quoteBtn = createButton('Generate Your Quote of the Day!');
-  quoteBtn.position(10, height - 100);
-  quoteBtn.style('background-color', '#C8A2C8');
-  quoteBtn.style('border-radius', '10px');
-  quoteBtn.style('font-size', '16px');
-  };
+function createButtons(){
+  let journalButton = createButton('Journal');
+  journalButton.position(20, 20);
+  journalButton.mousePressed(openJournal);
 
-  function journal(){
-    showStickyNote();
-    rect(0, 0, 300, 300);
-    fill("white");
-
-
-  }
-
+  // Create Quote of the Day Button
+  let quoteButton = createButton('Quote of the Day');
+  quoteButton.position(120, 20);
+  //quoteButton.mousePressed(displayQuote);
   
+  // Create Theme Button
+  let themeButton = createButton('Change Theme');
+  themeButton.position(280, 20);
+  themeButton.mousePressed(changeTheme);
+}
+
+
+function changeTheme() {
+  // Get the selected theme option
+  let themeOption = select().value();
+
+  // Change the background based on the selected theme
+  if (themeOption === 'galaxy') {
+    background(0);
+    // Load and display the galaxy image
+    let galaxyImage = loadImage('galaxy.jpg');
+    image(galaxyImage, 0, 0, width, height);
+  } else if (themeOption === 'sunset') {
+    background(255, 0, 0);
+    // Load and display the sunset image
+    let sunsetImage = loadImage('sunset.jpg');
+    image(sunsetImage, 0, 0, width, height);
+  } else if (themeOption === 'garden') {
+    background(0, 255, 0);
+    // Load and display the garden image
+    let gardenImage = loadImage('garden.jpg');
+    image(gardenImage, 0, 0, width, height);
+  }
+}
+
+let playlist = ['bgSound1', 'bgSound2', 'bgSound3', 'bgSound4', 'bgSound5'];
+let currentSongIndex = 0;
+
+function playMusic() {
+  let currentSong = playlist[currentSongIndex];
+  console.log('Playing:', currentSong);
+  // Add code to play the current song
+  
+  // Create a box to display the current song
+  fill(255);
+  rect(10, 10, 200, 50);
+  fill(0);
+  textSize(16);
+  textAlign(LEFT, CENTER);
+  text(currentSong, 20, 35);
+}
+
+function switchSong(direction) {
+  if (direction === 'next') {
+    currentSongIndex = (currentSongIndex + 1) % playlist.length;
+  } else if (direction === 'previous') {
+    currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+  }
+  
+  playMusic();
+}
+
+function createMusicButtons() {
+  let playButton = createButton('Play');
+  playButton.position(20, 80);
+  playButton.mousePressed(playMusic);
+  
+  let nextButton = createButton('Next');
+  nextButton.position(80, 80);
+  nextButton.mousePressed(() => switchSong('next'));
+  
+  let previousButton = createButton('Previous');
+  previousButton.position(140, 80);
+  previousButton.mousePressed(() => switchSong('previous'));
+}
+
+
