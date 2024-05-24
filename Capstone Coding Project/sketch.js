@@ -33,14 +33,11 @@ function preload(){
   bgSound2 = loadSound("Songs/AllDay.mp3");
   bgSound3 = loadSound("Songs/Happier.mp3");
   bgSound4 = loadSound("Songs/FirstLove.mp3");
-
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
-  
-  
 
   for (let i = 0; i < 50; i++) {
     let x = random(width);
@@ -48,13 +45,11 @@ function setup() {
     let size = random(1, 3);
     stars.push({ x: x, y: y, size: size });
   }
-  
    
 }
 
 function draw() {
   background(0);
- 
   
   for (let star of stars) {
     fill(255);
@@ -66,6 +61,7 @@ function draw() {
     showStickyNote();
   }
 }
+
 
 function mouseClicked() {
   for (let star of stars) {
@@ -132,6 +128,8 @@ function createButtons(){
   let themeButton = createButton('Change Theme');
   themeButton.position(280, 20);
   themeButton.mousePressed(changeTheme);
+  
+  createMusicButtons();
 }
 
 
@@ -158,45 +156,41 @@ function changeTheme() {
   }
 }
 
-let playlist = ['bgSound1', 'bgSound2', 'bgSound3', 'bgSound4', 'bgSound5'];
-let currentSongIndex = 0;
-
-function playMusic() {
-  let currentSong = playlist[currentSongIndex];
-  console.log('Playing:', currentSong);
-  // Add code to play the current song
-  
-  // Create a box to display the current song
-  fill(255);
-  rect(10, 10, 200, 50);
-  fill(0);
-  textSize(16);
-  textAlign(LEFT, CENTER);
-  text(currentSong, 20, 35);
-}
-
-function switchSong(direction) {
-  if (direction === 'next') {
-    currentSongIndex = (currentSongIndex + 1) % playlist.length;
-  } else if (direction === 'previous') {
-    currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
+function playMusic(sound) {
+  if (sound.isPlaying()) {
+    sound.stop();
+  } else {
+    sound.play();
   }
-  
-  playMusic();
 }
+
 
 function createMusicButtons() {
-  let playButton = createButton('Play');
-  playButton.position(20, 80);
-  playButton.mousePressed(playMusic);
+  let calmingButton = createButton('Calming');
+  calmingButton.position(20, 80);
+
+  let sadButton = createButton('Motivational');
+  sadButton.position(80, 80);
+
+  let hopefulButton = createButton('Hopeful');
+  hopefulButton.position(140, 80);
+
+  let motivationalButton = createButton('Sad');
+  motivationalButton.position(200, 80);
+
+  if( calmingButton.mousePressed()){
+    playMusic(bgSound1);
+  }
   
-  let nextButton = createButton('Next');
-  nextButton.position(80, 80);
-  nextButton.mousePressed(() => switchSong('next'));
+  else if(sadButton.mousePressed()){
+    playMusic(bgSound2);
+  } 
   
-  let previousButton = createButton('Previous');
-  previousButton.position(140, 80);
-  previousButton.mousePressed(() => switchSong('previous'));
+  else if(hopefulButton.mousePressed()){
+    playMusic(bgSound3);
+  } 
+  
+  else if(motivationalButton.mousePressed()){
+    playMusic(bgSound4);
+  } 
 }
-
-
