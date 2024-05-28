@@ -3,17 +3,21 @@
 // May 14, 2024
 // 
 
+let journalPage, journalTitle, submitButton, journalEntry, returnButton;
+
+let journalUI = [];
+
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
-  
-  for (let i = 0; i < 50; i++) {
-    let x = random(width);
-    let y = random(height);
-    let size = random(1, 3);
-    stars.push({ x: x, y: y, size: size });
-  }
-     
+
+  let exploreButton = createButton('Begin Your Self Exploration');
+  exploreButton.style('background-color', 'beige');
+  exploreButton.style('border-radius', '30px');
+  exploreButton.style('font-size', '40px');
+  exploreButton.position(width/2 -200, height/2 - 50);
+  exploreButton.mousePressed(showStickyNote)
 }
 
 
@@ -22,82 +26,103 @@ let stickyNote = { active: false, x: 0, y: 0 };
 
 function homePage(){
   let journalButton = createButton('Journal');
+  journalButton.style('background-color', 'beige');
+  journalButton.style('border-radius', '10px');
+  journalButton.style('font-size', '16px');
   journalButton.position(20, 20);
-  //journalButton.mousePressed(openJournal);
+  journalButton.mousePressed(journal);
 
   let quoteButton = createButton('Quote of the Day');
+  quoteButton.style('background-color', 'beige');
+  quoteButton.style('border-radius', '10px');
+  quoteButton.style('font-size', '16px');
   quoteButton.position(120, 20);
   
   let themeButton = createButton('Change Theme');
+  themeButton.style('background-color', 'beige');
+  themeButton.style('border-radius', '10px');
+  themeButton.style('font-size', '16px');
   themeButton.position(280, 20);
   //themeButton.mousePressed(changeTheme);
 
   let songsButton = createButton('Songs');
+  songsButton.style('background-color', 'beige');
+  songsButton.style('border-radius', '10px');
+  songsButton.style('font-size', '16px');
   songsButton.position(440, 20);
-  
 }
+
 
 function journal(){
-  if(journalButton.mousePressed){
-    homePage.hide();
-    //***creating a popup when journal button is pressed */
-    let journalPage = createDiv(''); // Create a div element for the journal page
-      journalPage.position(0, 0); // Position the journal page
-      journalPage.size(windowWidth, windowHeight); // Set the size of the journal page
-      journalPage.style('background-color', 'beige'); // Set background color to beige
+  //***creating a popup when journal button is pressed */
+  journalPage = createDiv(''); // Create a div element for the journal page to store other elements in the div element
+  journalPage.position(0, 0); // Position the journal page
+  journalPage.size(windowWidth, windowHeight); // Set the size of the journal page
+  journalPage.style('background-color', 'beige'); // Set background color to beige
     
-      let journalTitle = createElement('h1', 'Journal'); // Create a heading for the journal title
-      journalTitle.position(20, -5); // Position the journal title
+  journalTitle = createElement('h1', 'Journal'); // Create a heading for the journal title
+  journalTitle.position(20, -5); // Position the journal title
     
-      let journalEntry = createElement('textarea', ''); // Create a textarea for journal entry
-      journalEntry.position(20, 50); // Position the textarea
-      journalEntry.size(400, 300); // Set the size of the textarea
+  journalEntry = createElement('textarea', ''); // Create a textarea for journal entry for user to write in
+  journalEntry.position(20, 50); // Position the textarea
+  journalEntry.size(400, 300); // Set the size of the textarea
     
-      let submitButton = createButton('Submit'); // Create a submit button
-      submitButton.position(20, 370); // Position the submit button
-  }
-  else{
-    homePage.show();
-  }
-      
-}
-function draw() {
-  background(0);
+  submitButton = createButton('Submit'); // Create a submit button
+  submitButton.style('background-color', 'pink');
+  submitButton.style('border-radius', '30px');
+  submitButton.style('font-size', '20px');
+  submitButton.position(20, 370); // Position the submit button    
   
-  for (let star of stars) {
-    fill(255);
-    noStroke();
-    ellipse(star.x, star.y, star.size, star.size);
-  }
+  submitButton.mousePressed(() => {
+    let entry = journalEntry.value(); // Get the text entered by the user
+        // Save the journal entry or perform any desired action with the text
+    console.log('Journal Entry:', entry);
+    hideUI(journalUI)
+  });
 
-  if (stickyNote.active) {
-    showStickyNote();
-  }
+  returnButton = createButton('Return to HomePage');
+  returnButton.style('background-color', 'pink');
+  returnButton.style('border-radius', '30px');
+  returnButton.style('font-size', '20px');
+  returnButton.position(width/2 + 100, height/2 + 400);
+  returnButton.mousePressed(showStickyNote)
+  
+  returnButton.mousePressed(() => {
+    hideUI(journalUI)
+  });
+
+
+
+
+  journalUI.push(journalPage);
+  journalUI.push(journalTitle);
+  journalUI.push(journalEntry);
+  journalUI.push(submitButton);
 }
 
-function mouseClicked() {
-  for (let star of stars) {
-    let d = dist(mouseX, mouseY, star.x, star.y);
-    if (d < star.size / 2) {
-      stickyNote.active = true;
-      stickyNote.x = star.x;
-      stickyNote.y = star.y;
-    }
+function hideUI(set){
+  for(let item of set){
+    item.hide();
   }
 }
 
 function showStickyNote() {
-
   fill('#FFC0CB');
   rect(0, 0, windowWidth, windowHeight);
   fill(0);
   textSize(16);
-  //text("Submit your commit of the day", stickyNote.x + 10, stickyNote.y + 30); 
   homePage();
 }
 
 
-
+function returnHome(){
+  let returnButton = createButton('Return to HomePage');
+  returnButton.style('background-color', 'pink');
+  returnButton.style('border-radius', '30px');
+  returnButton.style('font-size', '20px');
+  returnButton.position(width/2 + 100, height/2 + 400);
+  returnButton.mousePressed(showStickyNote)
+}
 
 
 
@@ -240,17 +265,14 @@ function showStickyNote() {
 
 //   // Change the background based on the selected theme
 //   if (themeOption === 'galaxy') {
-//     background(0);
 //     // Load and display the galaxy image
 //     let galaxyImage = loadImage('galaxy.jpg');
 //     image(galaxyImage, 0, 0, width, height);
 //   } else if (themeOption === 'sunset') {
-//     background(255, 0, 0);
 //     // Load and display the sunset image
 //     let sunsetImage = loadImage('sunset.jpg');
 //     image(sunsetImage, 0, 0, width, height);
 //   } else if (themeOption === 'garden') {
-//     background(0, 255, 0);
 //     // Load and display the garden image
 //     let gardenImage = loadImage('garden.jpg');
 //     image(gardenImage, 0, 0, width, height);
