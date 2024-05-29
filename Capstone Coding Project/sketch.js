@@ -3,10 +3,25 @@
 // May 14, 2024
 // 
 
+
 let journalPage, journalTitle, submitButton, journalEntry, returnButton;
+let sadButton, motivationalButton, calmingButton, hopefulButton, musicButtonsVisible = false, songsPage;
 
 let journalUI = [];
+let songsUI = [];
 
+let bgSound1;
+let bgSound2;
+let bgSound3;
+let bgSound4;
+
+
+function preload(){
+  bgSound1 = loadSound("Songs/SpringSnow.mp3");
+  bgSound2 = loadSound("Songs/AllDay.mp3");
+  bgSound3 = loadSound("Songs/Happier.mp3");
+  bgSound4 = loadSound("Songs/FirstLove.mp3");
+}
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -18,6 +33,16 @@ function setup() {
   exploreButton.style('font-size', '40px');
   exploreButton.position(width/2 -200, height/2 - 50);
   exploreButton.mousePressed(showStickyNote)
+  
+  
+  for (let i = 0; i < 100; i++) {
+    let x = random(width);
+    let y = random(height);
+    let size = random(1, 5);
+    fill(255);
+    noStroke();
+    ellipse(x, y, size, size);
+  }
 }
 
 
@@ -50,6 +75,7 @@ function homePage(){
   songsButton.style('border-radius', '10px');
   songsButton.style('font-size', '16px');
   songsButton.position(440, 20);
+  songsButton.mousePressed(songs);
 }
 
 
@@ -91,18 +117,90 @@ function journal(){
     hideUI(journalUI)
   });
 
-
-
-
   journalUI.push(journalPage);
   journalUI.push(journalTitle);
   journalUI.push(journalEntry);
   journalUI.push(submitButton);
 }
 
+
+function songs(){
+  songsPage = createDiv(''); // Create a div element for the journal page to store other elements in the div elements
+  songsPage.position(0, 0); 
+  songsPage.size(windowWidth, windowHeight); 
+  songsPage.style('background-color', 'beige'); 
+  
+  calmingButton = createButton('Calming');
+  calmingButton.position(20, 80);
+  calmingButton.style('background-color', 'beige');
+  calmingButton.style('border-radius', '10px');
+  calmingButton.style('font-size', '16px');
+  calmingButton.mousePressed(() => {
+    playMusic(bgSound1);
+  });
+
+  sadButton = createButton('Sad');
+  sadButton.position(80, 80);
+  sadButton.style('background-color', 'beige');
+  sadButton.style('border-radius', '10px');
+  sadButton.style('font-size', '16px');
+  sadButton.mousePressed(() => {
+    playMusic(bgSound4);
+  });
+
+  hopefulButton = createButton('Hopeful');
+  hopefulButton.position(140, 80);
+  hopefulButton.style('background-color', 'beige');
+  hopefulButton.style('border-radius', '10px');
+  hopefulButton.style('font-size', '16px');
+  hopefulButton.mousePressed(() => {
+    playMusic(bgSound3);
+  });
+
+  motivationalButton = createButton('Motivational');
+  motivationalButton.position(200, 80);
+  motivationalButton.style('background-color', 'beige');
+  motivationalButton.style('border-radius', '10px');
+  motivationalButton.style('font-size', '16px');
+  motivationalButton.mousePressed(() => {
+    playMusic(bgSound2);
+  });
+  
+  returnButton = createButton('Return to HomePage');
+  returnButton.style('background-color', 'pink');
+  returnButton.style('border-radius', '30px');
+  returnButton.style('font-size', '20px');
+  returnButton.position(width/2 + 100, height/2 + 400);
+  returnButton.mousePressed(showStickyNote)
+  
+  returnButton.mousePressed(() => {
+    hideUI(songsUI)
+  });
+
+  songsUI.push(journalPage);
+  songsUI.push(journalTitle);
+  songsUI.push(journalEntry);
+  songsUI.push(submitButton);
+
+}
+
+function playMusic(sound) {
+  if (sound.isPlaying()) {
+    sound.stop();
+  } else {
+    sound.play();
+  }
+}
+
 function hideUI(set){
   for(let item of set){
     item.hide();
+  }
+}
+
+function showUI(set){
+  for(let item of set){
+    item.show();
   }
 }
 
