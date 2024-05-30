@@ -4,7 +4,7 @@
 // 
 
 
-let journalPage, journalTitle, submitButton, journalEntry, returnButton;
+let journalPage, journalTitle, submitButton, journalEntry, returnButton, exploreButton;
 let sadButton, motivationalButton, calmingButton, hopefulButton, musicButtonsVisible = false, songsPage;
 
 let journalUI = [];
@@ -27,12 +27,15 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
 
-  let exploreButton = createButton('Begin Your Self Exploration');
+  exploreButton = createButton('Begin Your Self Exploration');
   exploreButton.style('background-color', 'beige');
   exploreButton.style('border-radius', '30px');
   exploreButton.style('font-size', '40px');
   exploreButton.position(width/2 -200, height/2 - 50);
-  exploreButton.mousePressed(showStickyNote)
+  exploreButton.mousePressed(() => {
+    showStickyNote();
+    exploreButton.hide();
+  });
   
   
   for (let i = 0; i < 100; i++) {
@@ -124,6 +127,7 @@ function journal(){
 }
 
 
+
 function songs(){
   songsPage = createDiv(''); // Create a div element for the journal page to store other elements in the div elements
   songsPage.position(0, 0); 
@@ -132,7 +136,7 @@ function songs(){
   
   calmingButton = createButton('Calming');
   calmingButton.position(20, 80);
-  calmingButton.style('background-color', 'beige');
+  calmingButton.style('background-color', 'pink');
   calmingButton.style('border-radius', '10px');
   calmingButton.style('font-size', '16px');
   calmingButton.mousePressed(() => {
@@ -140,8 +144,8 @@ function songs(){
   });
 
   sadButton = createButton('Sad');
-  sadButton.position(80, 80);
-  sadButton.style('background-color', 'beige');
+  sadButton.position(105, 80);
+  sadButton.style('background-color', 'pink');
   sadButton.style('border-radius', '10px');
   sadButton.style('font-size', '16px');
   sadButton.mousePressed(() => {
@@ -149,8 +153,8 @@ function songs(){
   });
 
   hopefulButton = createButton('Hopeful');
-  hopefulButton.position(140, 80);
-  hopefulButton.style('background-color', 'beige');
+  hopefulButton.position(160, 80);
+  hopefulButton.style('background-color', 'pink');
   hopefulButton.style('border-radius', '10px');
   hopefulButton.style('font-size', '16px');
   hopefulButton.mousePressed(() => {
@@ -158,8 +162,8 @@ function songs(){
   });
 
   motivationalButton = createButton('Motivational');
-  motivationalButton.position(200, 80);
-  motivationalButton.style('background-color', 'beige');
+  motivationalButton.position(250, 80);
+  motivationalButton.style('background-color', 'pink');
   motivationalButton.style('border-radius', '10px');
   motivationalButton.style('font-size', '16px');
   motivationalButton.mousePressed(() => {
@@ -177,20 +181,25 @@ function songs(){
     hideUI(songsUI)
   });
 
-  songsUI.push(journalPage);
-  songsUI.push(journalTitle);
-  songsUI.push(journalEntry);
-  songsUI.push(submitButton);
+  songsUI.push(songsPage);
+  songsUI.push(sadButton);
+  songsUI.push(motivationalButton);
+  songsUI.push(hopefulButton);
+  songsUI.push(calmingButton);
 
 }
+
+let currentSound;
 
 function playMusic(sound) {
-  if (sound.isPlaying()) {
-    sound.stop();
-  } else {
-    sound.play();
+  if (currentSound) {
+    currentSound.stop();
   }
+  currentSound = sound;
+  currentSound.play();
 }
+
+
 
 function hideUI(set){
   for(let item of set){
@@ -220,6 +229,26 @@ function returnHome(){
   returnButton.style('font-size', '20px');
   returnButton.position(width/2 + 100, height/2 + 400);
   returnButton.mousePressed(showStickyNote)
+}
+
+function changeTheme() {
+  // Get the selected theme option
+  let themeOption = select().value();
+
+  // Change the background based on the selected theme
+  if (themeOption === 'galaxy') {
+    // Load and display the galaxy image
+    let galaxyImage = loadImage('galaxy.jpg');
+    image(galaxyImage, 0, 0, width, height);
+  } else if (themeOption === 'sunset') {
+    // Load and display the sunset image
+    let sunsetImage = loadImage('sunset.jpg');
+    image(sunsetImage, 0, 0, width, height);
+  } else if (themeOption === 'garden') {
+    // Load and display the garden image
+    let gardenImage = loadImage('garden.jpg');
+    image(gardenImage, 0, 0, width, height);
+  }
 }
 
 
