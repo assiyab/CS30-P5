@@ -4,11 +4,12 @@
 // 
 
 
-let journalPage, journalTitle, submitButton, journalEntry, returnButton, exploreButton;
+let journalPage, journalTitle, submitButton, journalEntry, returnButton, exploreButton, themePage;
 let sadButton, motivationalButton, calmingButton, hopefulButton, musicButtonsVisible = false, songsPage;
 
 let journalUI = [];
 let songsUI = [];
+let themeUI = [];
 
 let bgSound1;
 let bgSound2;
@@ -71,7 +72,7 @@ function homePage(){
   themeButton.style('border-radius', '10px');
   themeButton.style('font-size', '16px');
   themeButton.position(280, 20);
-  //themeButton.mousePressed(changeTheme);
+  themeButton.mousePressed(changeTheme);
 
   let songsButton = createButton('Songs');
   songsButton.style('background-color', 'beige');
@@ -232,22 +233,90 @@ function returnHome(){
 }
 
 function changeTheme() {
-  // Get the selected theme option
-  let themeOption = select().value();
+  themePage = createDiv(''); // Create a div element for the journal page to store other elements in the div element
+  themePage.position(0, 0); // Position the journal page
+  themePage.size(windowWidth, windowHeight); // Set the size of the journal page
+  themePage.style('background-color', 'beige'); // Set background color to beige
 
-  // Change the background based on the selected theme
-  if (themeOption === 'galaxy') {
-    // Load and display the galaxy image
-    let galaxyImage = loadImage('galaxy.jpg');
-    image(galaxyImage, 0, 0, width, height);
-  } else if (themeOption === 'sunset') {
-    // Load and display the sunset image
-    let sunsetImage = loadImage('sunset.jpg');
-    image(sunsetImage, 0, 0, width, height);
-  } else if (themeOption === 'garden') {
-    // Load and display the garden image
-    let gardenImage = loadImage('garden.jpg');
-    image(gardenImage, 0, 0, width, height);
+  duskButton = createButton('Dusk Button');
+  duskButton.style('background-color', 'pink');
+  duskButton.style('border-radius', '30px');
+  duskButton.style('font-size', '20px');
+  duskButton.position(10, 100);
+
+  pastelSkyButton = createButton('Pastel Sky Button');
+  pastelSkyButton.style('background-color', 'pink');
+  pastelSkyButton.style('border-radius', '30px');
+  pastelSkyButton.style('font-size', '20px');
+  pastelSkyButton.position(100, 100);
+
+  cottoncandyButton = createButton('CottonCandy Button');
+  cottoncandyButton.style('background-color', 'pink');
+  cottoncandyButton.style('border-radius', '30px');
+  cottoncandyButton.style('font-size', '20px');
+  cottoncandyButton.position(200, 100);
+
+  dawnButton = createButton('Dawn Button');
+  dawnButton.style('background-color', 'pink');
+  dawnButton.style('border-radius', '30px');
+  dawnButton.style('font-size', '20px');
+  dawnButton.position(300, 100);
+
+  dawnButton = createButton('Dawn Button');
+  dawnButton.style('background-color', 'pink');
+  dawnButton.style('border-radius', '30px');
+  dawnButton.style('font-size', '20px');
+  dawnButton.position(400, 100);
+
+  // Get the selected theme option
+  // let themeOption = select().value();
+  // // Change the background based on the selected theme
+  // if (themeOption === 'Dusk') {
+  //   let duskImage = loadImage('BG1.jpg');
+  //   image(duskImage, 0, 0, width, height);
+
+  // } else if (themeOption === 'Pastel Skys') {
+  //   let pastelSkyImage = loadImage('BG2.jpg');
+  //   image(pastelSkyImage, 0, 0, width, height);
+
+  // } else if (themeOption === 'CottonCandy') {
+  //   let cottonCandyImage = loadImage('BG3.jpg');
+  //   image(cottonCandyImage, 0, 0, width, height);
+  // }
+
+  // else if (themeOption === 'Dawn') {
+  //   let dawnImage = loadImage('BG4.jpg');
+  //   image(dawnImage, 0, 0, width, height);
+  // }
+
+  // else if (themeOption === 'Galaxy') {
+  //   let galaxyImage = loadImage('BG5.jpg');
+  //   image(galaxyImage, 0, 0, width, height);
+  // }
+
+  // else if (themeOption === 'Unicorns Residence') {
+  //   let unicornsResidenceImage = loadImage('BG6.jpg');
+  //   image(unicornsResidenceImage, 0, 0, width, height);
+  // }
+
+  returnButton = createButton('Return to HomePage');
+  returnButton.style('background-color', 'pink');
+  returnButton.style('border-radius', '30px');
+  returnButton.style('font-size', '20px');
+  returnButton.position(width/2 + 100, height/2 + 400);
+  returnButton.mousePressed(showStickyNote)
+  
+  returnButton.mousePressed(() => {
+    hideUI(themeUI)
+  });
+
+  themeUI.push(themePage);
+}
+
+function mousePressed(){
+  if(duskButton.mousePressed){
+    let duskImage = loadImage('BG1.jpg');
+    image(duskImage, 0, 0, windowWidth, windowHeight);
   }
 }
 
