@@ -4,17 +4,20 @@
 // 
 
 
-let journalPage, journalTitle, submitButton, journalEntry, returnButton, exploreButton, themePage;
-let sadButton, motivationalButton, calmingButton, hopefulButton, musicButtonsVisible = false, songsPage;
+let journalPage, journalTitle, submitButton, journalEntry, returnButton, exploreButton, themePage, 
+sadButton, happyButton, motivationalButton, calmingButton, hopefulButton, musicButtonsVisible = false, songsPage;
+
 
 let journalUI = [];
 let songsUI = [];
 let themeUI = [];
+let quoteUI = [];
 
 let bgSound1;
 let bgSound2;
 let bgSound3;
 let bgSound4;
+let bgSound5;
 
 
 function preload(){
@@ -22,6 +25,7 @@ function preload(){
   bgSound2 = loadSound("Songs/AllDay.mp3");
   bgSound3 = loadSound("Songs/Happier.mp3");
   bgSound4 = loadSound("Songs/FirstLove.mp3");
+  bgSound5 = loadSound("Songs/Swing.mp3");
 }
 
 function setup() {
@@ -66,6 +70,7 @@ function homePage(){
   quoteButton.style('border-radius', '10px');
   quoteButton.style('font-size', '16px');
   quoteButton.position(120, 20);
+  quoteButton.mousePressed(quoteGenerator);
   
   let themeButton = createButton('Change Theme');
   themeButton.style('background-color', 'beige');
@@ -170,6 +175,15 @@ function songs(){
   motivationalButton.mousePressed(() => {
     playMusic(bgSound2);
   });
+
+  happyButton = createButton('Happy');
+  happyButton.position(370, 80);
+  happyButton.style('background-color', 'pink');
+  happyButton.style('border-radius', '10px');
+  happyButton.style('font-size', '16px');
+  happyButton.mousePressed(() => {
+    playMusic(bgSound5);
+  });
   
   returnButton = createButton('Return to HomePage');
   returnButton.style('background-color', 'pink');
@@ -187,6 +201,7 @@ function songs(){
   songsUI.push(motivationalButton);
   songsUI.push(hopefulButton);
   songsUI.push(calmingButton);
+  songsUI.push(happyButton);
 
 }
 
@@ -243,30 +258,23 @@ function changeTheme() {
   duskButton.style('border-radius', '30px');
   duskButton.style('font-size', '20px');
   duskButton.position(10, 100);
+  duskButton.mousePressed(() => {
+    let duskImage = loadImage('Backgrounds/BG1.jpg');
+    image(duskImage, 0, 0, windowWidth, windowHeight);
+  });
 
   pastelSkyButton = createButton('Pastel Sky Button');
   pastelSkyButton.style('background-color', 'pink');
   pastelSkyButton.style('border-radius', '30px');
   pastelSkyButton.style('font-size', '20px');
-  pastelSkyButton.position(100, 100);
+  pastelSkyButton.position(200, 100);
 
   cottoncandyButton = createButton('CottonCandy Button');
   cottoncandyButton.style('background-color', 'pink');
   cottoncandyButton.style('border-radius', '30px');
   cottoncandyButton.style('font-size', '20px');
-  cottoncandyButton.position(200, 100);
+  cottoncandyButton.position(400, 100);
 
-  dawnButton = createButton('Dawn Button');
-  dawnButton.style('background-color', 'pink');
-  dawnButton.style('border-radius', '30px');
-  dawnButton.style('font-size', '20px');
-  dawnButton.position(300, 100);
-
-  dawnButton = createButton('Dawn Button');
-  dawnButton.style('background-color', 'pink');
-  dawnButton.style('border-radius', '30px');
-  dawnButton.style('font-size', '20px');
-  dawnButton.position(400, 100);
 
   // Get the selected theme option
   // let themeOption = select().value();
@@ -311,13 +319,59 @@ function changeTheme() {
   });
 
   themeUI.push(themePage);
+  themeUI.push(duskButton);
+  themeUI.push(pastelSkyButton);
+  themeUI.push(cottonCandyButton);
+
 }
 
-function mousePressed(){
-  if(duskButton.mousePressed){
-    let duskImage = loadImage('BG1.jpg');
-    image(duskImage, 0, 0, windowWidth, windowHeight);
-  }
+
+function quoteGenerator(){
+  //Arrays of positive and negative words
+
+const positiveWords = ["happy", "good", "great", "awesome", "fantastic", "positive", "love", "excellent", "lit", "cool", "amazing", "fire", "chill", "slay", "vibe", "sick", "banger", "blessed", "pumped", "hyped"];
+
+const negativeWords = ["sad", "bad", "terrible", "awful", "horrible", "negative", "hate", "poor", "trash", "sucks", "lame", "cringe", "depressed", "worst", "mad", "angry", "annoyed" , "bummer", "fail", "yikes", "toxic", "drained", "overwhelmed"];
+
+
+// Function to perform sentiment analysis
+
+function analyzeSentiment(text) {
+
+    const words = text.toLowerCase().split(/\W+/);
+
+    let sentimentScore = 0;
+
+    let sentiment = "";
+    if (positiveCount > negativeCount) {
+        sentiment = "Positive";
+    } else if (negativeCount > positiveCount) {
+        sentiment = "Negative";
+    } else {
+        sentiment = "Neutral";
+    }
+    return sentiment;
+}
+
+ 
+
+// Function to get user input and analyze sentiment
+
+function journalSentiment() {
+    const text = prompt("Enter your journal entry:");
+    if (text) {
+        const sentiment = analyzeSentiment(text);
+        console.log(`Sentiment: ${sentiment}`);
+    } else {
+        console.log("No input provided.");
+    }
+}
+
+
+// Run the function to prompt the user and analyze sentiment
+
+journalSentiment();
+
 }
 
 
