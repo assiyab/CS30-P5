@@ -110,7 +110,7 @@ function journal(){
     
   submitButton = createButton('Submit'); // Create a submit button
   submitButton.style('background-color', 'pink');
-  submitButton.style('border-radius', '30px');
+  submitButton.style('border-radius', '15px');
   submitButton.style('font-size', '20px');
   submitButton.style('font-family','Cursive')
   submitButton.position(20, 370); // Position the submit button    
