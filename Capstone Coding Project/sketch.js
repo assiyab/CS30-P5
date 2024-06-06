@@ -3,23 +3,18 @@
 // May 14, 2024
 // 
 
-
+//intialize everything global so it can be accessed both ways (globally and locally)
 let journalPage, journalTitle, submitButton, journalEntry, returnButton, exploreButton, themePage, 
 quoteTitle, quotePage, sadButton, happyButton, motivationalButton, calmingButton, hopefulButton, 
-musicButtonsVisible = false, songsPage, generateBtn, regenerateBtn;
+musicButtonsVisible = false, songsPage, generateBtn, regenerateBtn, quotes, currentTheme = 'motivational',
+bgSound1, bgSound2, bgSound3, bgSound4, bgSound5, currentSound;
 
 
 let journalUI = [];
 let songsUI = [];
 let themeUI = [];
 let quoteUI = [];
-
-let bgSound1;
-let bgSound2;
-let bgSound3;
-let bgSound4;
-let bgSound5;
-
+let menuUI = [];
 
 function preload(){
   bgSound1 = loadSound("Songs/SpringSnow.mp3");
@@ -28,6 +23,7 @@ function preload(){
   bgSound4 = loadSound("Songs/FirstLove.mp3");
   bgSound5 = loadSound("Songs/Swing.mp3");
 }
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -43,7 +39,7 @@ function setup() {
     showStickyNote();
     exploreButton.hide();
   });
-  
+
   
   for (let i = 0; i < 100; i++) {
     let x = random(width);
@@ -55,11 +51,21 @@ function setup() {
   }
 }
 
+function mousePressed(){
+  if(mouseIsPressed){
+    if(mouseButton === RIGHT){
+      background(random(255), random(255), random(255));
+    }
+  }
+}
+
 
 let stars = [];
 let stickyNote = { active: false, x: 0, y: 0 };
 
 function homePage(){
+  
+
   let journalButton = createButton('Journal');
   journalButton.style('background-color', 'beige');
   journalButton.style('border-radius', '10px');
@@ -91,6 +97,12 @@ function homePage(){
   songsButton.style('font-family','Cursive')
   songsButton.position(440, 20);
   songsButton.mousePressed(songs);
+
+  menuUI.push(journalButton);
+  menuUI.push(quoteButton);
+  menuUI.push(themeButton);
+  menuUI.push(songsButton);
+
 }
 
 
@@ -139,7 +151,6 @@ function journal(){
   journalUI.push(journalEntry);
   journalUI.push(submitButton);
 }
-
 
 
 function songs(){
@@ -216,10 +227,8 @@ function songs(){
   songsUI.push(hopefulButton);
   songsUI.push(calmingButton);
   songsUI.push(happyButton);
-
 }
 
-let currentSound;
 
 function playMusic(sound) {
   if (currentSound) {
@@ -228,7 +237,6 @@ function playMusic(sound) {
   currentSound = sound;
   currentSound.loop();
 }
-
 
 
 function hideUI(set){
@@ -262,11 +270,34 @@ function returnHome(){
   returnButton.mousePressed(showStickyNote)
 }
 
+function looper(){
+  if(x < 6){
+    x = x + 1
+  }
+  else {
+    //keep looping through backgrounds
+    x = 0;       
+  }
+}
+
+function mousePressed(){
+  if(mouseButton === RIGHT){
+    looper();
+
+  }
+}
+
 function changeTheme() {
-  themePage = createDiv(''); // Create a div element for the journal page to store other elements in the div element
-  themePage.position(0, 0); // Position the journal page
-  themePage.size(windowWidth, windowHeight); // Set the size of the journal page
-  themePage.style('background-color', 'beige'); // Set background color to beige
+  hideUI(menuUI)
+  fill(255);
+  rect(0, 0, windowWidth, windowHeight);
+
+  
+  
+  //themePage = createDiv(''); // Create a div element for the journal page to store other elements in the div element
+  //themePage.position(0, 0); // Position the journal page
+  //themePage.size(windowWidth, windowHeight); // Set the size of the journal page
+  //themePage.style('background-color', 'beige'); // Set background color to beige
 
   duskButton = createButton('Dusk Button');
   duskButton.style('background-color', 'pink');
@@ -276,7 +307,7 @@ function changeTheme() {
   duskButton.position(10, 100);
   duskButton.mousePressed(() => {
     let duskImage = loadImage('Backgrounds/BG1.jpg');
-    image(duskImage, 0, 0, windowWidth, windowHeight);
+    //image(duskImage, 0, 0, windowWidth, windowHeight);
   });
 
   pastelSkyButton = createButton('Pastel Sky Button');
@@ -286,13 +317,12 @@ function changeTheme() {
   pastelSkyButton.style('font-family','Cursive')
   pastelSkyButton.position(200, 100);
 
-  cottonCandyButton = createButton('CottonCandy Button');
+  cottonCandyButton = createButton('Cotton Candy Button');
   cottonCandyButton.style('background-color', 'pink');
   cottonCandyButton.style('border-radius', '30px');
   cottonCandyButton.style('font-size', '20px');
   cottonCandyButton.style('font-family','Cursive')
   cottonCandyButton.position(400, 100);
-
 
   // Get the selected theme option
   // let themeOption = select().value();
@@ -334,10 +364,11 @@ function changeTheme() {
   returnButton.mousePressed(showStickyNote)
   
   returnButton.mousePressed(() => {
-    hideUI(themeUI)
+    hideUI(themeUI);
+    homePage();
   });
 
-  themeUI.push(themePage);
+  // themeUI.push(themePage);
   themeUI.push(duskButton);
   themeUI.push(pastelSkyButton);
   themeUI.push(cottonCandyButton);
@@ -346,6 +377,64 @@ function changeTheme() {
 
 
 function quoteGenerator(){
+  quotes = {
+    motivational: [
+      "\"Success is not final, failure is not fatal. It is the courage to continue that counts - Unknown\"",
+      "\"Work hard in silence, let success be your noise - Park Jihyo\"",
+      "\"Hardships often prepare ordinary people for an extraordinary destiny - Unknown\"",
+      "\"Believe you can and you're halfway there - Unknown\"",
+      "\"Pain is weakness leaving the body - Lewis Burwell\"",
+      "\"Perfection does not exist, but if you chase perfection you will obtain excellence - Vince Lombardi\"",
+      "\"Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time - Thomas Edison\"",
+      "\"Setting goals is the first step of turning invisible to visible - Tany Robins\"",
+      "\"The sturggle you're in today is deveoping the strength you need for tomorrow - Unknown\"",
+      "\"You cannot swim for new horizons until you have courage to lose sight of the shore — William Faulkner\"",
+    ],
+    
+    calming: [
+      "\"In the midst of movement and chaos, keep stillness inside of you - Unknown\"",
+      "\"The best way out is always through - Unknown\"",
+      "\"Serenity comes when you trade expectations for acceptance - Unknown\"",
+      "\"Set peace of mind at the highest goal, and organize your life around it - Brian Tracy\"",
+      "\"Just because we are in a stressful situation, does not mean we must be stressed out - Joel Osteen\"",
+      "\"If you wouldn't say it to a stranger, why say it to yourself? - Jane Travis\"",
+      "\"By staying calm, you increase your resistance against any kind of storms -  Mehmet Murat ildan\"",
+      "\"Don’t try to force anything. Let life be a deep let-go. God opens millions of flowers every day without forcing their buds - Osho\"",
+      "\"Give your stress wings and let it fly away - Terri Guillemets\"",
+      "\"To be calm is the highest achievement of the self - Unknown\"",
+      "\"We must accept finite disappointment, but never lose infinite hope — Martin Luther King, Jr.\"",
+      "\"When you’re at the end of your rope, tie a knot and hold on — Theodore Roosevelt\"",
+    ],
+    
+    comedic: [
+      "\"When in doubt, look intelligent - Garrison Keiler\"",
+      "\"Hard work never killed anybody but why take the chance? - Ronald Regan\"",
+      "\"Lazy is such a cruel word, I prefer to call it selective participation - John Silver\"",
+      "\"Finally my winter fat is gone, now I have spring rolls - Unknown\"",
+      "\"Why do they call it rush hour when nothing moves? - Robin Williams\"",
+      "\"The man who says his wife can't take a joke forgot that she took him - Oscar Wilde\"",
+      "\"One day.... I'll make the onions cry - Unknown\"",
+      "\"Are your forehead and hairline old friends? Because they seem to go way back - Unknown\"",
+      "\"Have you ever noticed that anybody driving slower than you is an idiot, and anyone going faster than you is a maniac? — George Carlin\"",
+      "\"Whoever said that money can’t buy happiness, simply didn’t know where to go shopping ― Bo Derek\"",
+      "\"The reason I talk to myself is because I’m the only one whose answers I accept ― George Carlin\""
+      
+    ],
+    
+    hopeful:[
+      "\"Trust the timing of your life - Unknown\"",
+      "\"Learn from yesterday, live for today, hope for tomorrow. The important thing is to stop questioning - Albert Einstein\"",
+      "\"Life is like a bicycle, to keep balance you must keep moving - Albert Einstein\"",
+      "\"Optimism is what leads to achievement - Helen Keller\"",
+      "\"Even if it wasn't today, it could be tomorrow - Unknown\"",
+      "\"Nothing in the past can be changed, but you can still control your future - Jim Rohn\"",
+      "\"There is a crack in everything, that is how light gets in - Leaonrad Cohen\"",
+      "\"Hope is being able to see that there is light despite the darkness - Desmond Tutu\"",
+      "\"It’s the children the world almost breaks who grow up to save it — Frank Warren\"",
+      "\"Let your hopes, not your hurts, shape your future — Robert H. Schuller\"",
+      "\"Never give up. Have hope. Expect only the best from life and take action to get it — Catherine Pulsifer\""
+    ]
+  };
 
   quotePage = createDiv(''); // Create a div element for the journal page to store other elements in the div element
   quotePage.position(0, 0); // Position the journal page
@@ -357,7 +446,6 @@ function quoteGenerator(){
   quoteTitle.position(20, -5); // Position the journal title
 
 
-
   generateBtn = createButton('Generate Quote of the Day');
   generateBtn.position(0, height - 100);
   generateBtn.style('background-color', 'pink');
@@ -366,6 +454,11 @@ function quoteGenerator(){
   generateBtn.style('font-family','Cursive')
   generateBtn.mousePressed(function() {
     currentTheme = prompt('What theme fits your mood for today? motivational, calming, comedic, hopeful');
+    if (currentTheme === 'motivational' || currentTheme === 'calming' || currentTheme === 'comedic' || currentTheme === 'hopeful') {
+      generateQuote();
+    } else {
+      alert('Invalid theme. Please choose motivational, calming, comedic, or hopeful.');
+    }
   });
 
   //picks another quote from same list 
@@ -421,6 +514,8 @@ function quoteGenerator(){
 //     return sentiment;
 // }
 
+
+
  
 
 // // Function to get user input and analyze sentiment
@@ -442,6 +537,28 @@ function quoteGenerator(){
 
 }
 
+
+
+function generateQuote() {
+  let randomIndex = floor(random(quotes[currentTheme].length));
+  let quote = quotes[currentTheme][randomIndex];
+  
+  fill(0);
+  textFont('Comic Sans MS');
+  textSize(30);
+  text(quote, 100, 230, 360, 300);
+}
+
+
+function regenerateQuote() {
+  let randomIndex = floor(random(quotes[currentTheme].length));
+  let quote = quotes[currentTheme][randomIndex];
+  
+  fill(0);
+  textSize(30);
+  textFont('Comic Sans MS');
+  text(quote, 100, 230, 360, 300);
+}
 
 
 // console.log(quote);
