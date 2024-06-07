@@ -22,6 +22,14 @@ function preload(){
   bgSound3 = loadSound("Songs/Happier.mp3");
   bgSound4 = loadSound("Songs/FirstLove.mp3");
   bgSound5 = loadSound("Songs/Swing.mp3");
+
+  images[0] = loadImage('Backgrounds/BG1.jpg');  // Load all necessary images
+  images[1] = loadImage('Backgrounds/BG2.jpg');
+  images[2] = loadImage('Backgrounds/BG3.jpg');
+  images[3] = loadImage('Backgrounds/BG4.jpg');
+  images[4] = loadImage('Backgrounds/BG5.jpg');
+  images[5] = loadImage('Backgrounds/BG6.jpg');
+  
 }
 
 
@@ -41,21 +49,30 @@ function setup() {
   });
 
   
-  for (let i = 0; i < 100; i++) {
-    let x = random(width);
-    let y = random(height);
-    let size = random(1, 5);
-    fill(255);
-    noStroke();
-    ellipse(x, y, size, size);
-  }
+
+
+  //changeTheme();
+  currentImage = - 1;
 }
 
-function mousePressed(){
-  if(mouseIsPressed){
-    if(mouseButton === RIGHT){
-      background(random(255), random(255), random(255));
+function draw(){
+  if(currentImage === - 1){
+    randomSeed(100);
+    for (let i = 0; i < 100; i++) {
+      let x = random(width);
+      let y = random(height);
+      let size = random(1, 5);
+      fill(255);
+      noStroke();
+      ellipse(x, y, size, size);
     }
+    
+  }
+  else if(currentImage === - 2){
+    showStickyNote();
+  }
+  else{
+    image(images[currentImage], 0, 0, windowWidth, windowHeight);
   }
 }
 
@@ -65,7 +82,6 @@ let stickyNote = { active: false, x: 0, y: 0 };
 
 function homePage(){
   
-
   let journalButton = createButton('Journal');
   journalButton.style('background-color', 'beige');
   journalButton.style('border-radius', '10px');
@@ -107,11 +123,15 @@ function homePage(){
 
 
 function journal(){
+  hideUI(menuUI)
+  fill(255);
+  rect(0, 0, windowWidth, windowHeight);
+
   //***creating a popup when journal button is pressed */
-  journalPage = createDiv(''); // Create a div element for the journal page to store other elements in the div element
-  journalPage.position(0, 0); // Position the journal page
-  journalPage.size(windowWidth, windowHeight); // Set the size of the journal page
-  journalPage.style('background-color', 'beige'); // Set background color to beige
+  // journalPage = createDiv(''); // Create a div element for the journal page to store other elements in the div element
+  // journalPage.position(0, 0); // Position the journal page
+  // journalPage.size(windowWidth, windowHeight); // Set the size of the journal page
+  // journalPage.style('background-color', 'beige'); // Set background color to beige
     
   journalTitle = createElement('h1', 'Journal'); // Create a heading for the journal title
   journalTitle.position(20, -5); // Position the journal title
@@ -132,6 +152,7 @@ function journal(){
         // Save the journal entry or perform any desired action with the text
     console.log('Journal Entry:', entry);
     hideUI(journalUI)
+    homePage();
   });
 
   returnButton = createButton('Return to HomePage');
@@ -143,21 +164,28 @@ function journal(){
   returnButton.mousePressed(showStickyNote)
   
   returnButton.mousePressed(() => {
-    hideUI(journalUI)
+    hideUI(journalUI);
+    homePage();
   });
 
-  journalUI.push(journalPage);
+  //journalUI.push(journalPage);
   journalUI.push(journalTitle);
   journalUI.push(journalEntry);
   journalUI.push(submitButton);
+  journalUI.push(returnButton);
 }
 
 
 function songs(){
-  songsPage = createDiv(''); // Create a div element for the journal page to store other elements in the div elements
-  songsPage.position(0, 0); 
-  songsPage.size(windowWidth, windowHeight); 
-  songsPage.style('background-color', 'beige'); 
+
+  hideUI(menuUI)
+  fill(255);
+  rect(0, 0, windowWidth, windowHeight);
+
+  // songsPage = createDiv(''); // Create a div element for the journal page to store other elements in the div elements
+  // songsPage.position(0, 0); 
+  // songsPage.size(windowWidth, windowHeight); 
+  // songsPage.style('background-color', 'beige'); 
   
   calmingButton = createButton('Calming');
   calmingButton.position(20, 80);
@@ -219,14 +247,16 @@ function songs(){
   
   returnButton.mousePressed(() => {
     hideUI(songsUI)
+    homePage();
   });
 
-  songsUI.push(songsPage);
+  //songsUI.push(songsPage);
   songsUI.push(sadButton);
   songsUI.push(motivationalButton);
   songsUI.push(hopefulButton);
   songsUI.push(calmingButton);
   songsUI.push(happyButton);
+  songsUI.push(returnButton);
 }
 
 
@@ -252,6 +282,7 @@ function showUI(set){
 }
 
 function showStickyNote() {
+  currentImage = - 2;
   fill('#FFC0CB');
   rect(0, 0, windowWidth, windowHeight);
   fill(0);
@@ -270,59 +301,60 @@ function returnHome(){
   returnButton.mousePressed(showStickyNote)
 }
 
-function looper(){
-  if(x < 6){
-    x = x + 1
+let x = 0;
+let images = [];
+let currentImage;
+
+function looper() {
+  if (x < 5) {
+    x++;
+  } else {
+    x = 0;
   }
-  else {
-    //keep looping through backgrounds
-    x = 0;       
-  }
+  currentImage = images[x];  // Update current image based on x
 }
 
-function mousePressed(){
-  if(mouseButton === RIGHT){
-    looper();
-
-  }
-}
 
 function changeTheme() {
-  hideUI(menuUI)
+  hideUI(menuUI);
   fill(255);
   rect(0, 0, windowWidth, windowHeight);
 
-  
-  
   //themePage = createDiv(''); // Create a div element for the journal page to store other elements in the div element
   //themePage.position(0, 0); // Position the journal page
   //themePage.size(windowWidth, windowHeight); // Set the size of the journal page
   //themePage.style('background-color', 'beige'); // Set background color to beige
-
-  duskButton = createButton('Dusk Button');
-  duskButton.style('background-color', 'pink');
-  duskButton.style('border-radius', '30px');
-  duskButton.style('font-size', '20px');
-  duskButton.style('font-family','Cursive')
-  duskButton.position(10, 100);
-  duskButton.mousePressed(() => {
-    let duskImage = loadImage('Backgrounds/BG1.jpg');
-    //image(duskImage, 0, 0, windowWidth, windowHeight);
-  });
-
-  pastelSkyButton = createButton('Pastel Sky Button');
-  pastelSkyButton.style('background-color', 'pink');
-  pastelSkyButton.style('border-radius', '30px');
-  pastelSkyButton.style('font-size', '20px');
-  pastelSkyButton.style('font-family','Cursive')
-  pastelSkyButton.position(200, 100);
-
-  cottonCandyButton = createButton('Cotton Candy Button');
-  cottonCandyButton.style('background-color', 'pink');
-  cottonCandyButton.style('border-radius', '30px');
-  cottonCandyButton.style('font-size', '20px');
-  cottonCandyButton.style('font-family','Cursive')
-  cottonCandyButton.position(400, 100);
+ 
+    duskButton = createButton('Dusk Button');
+    duskButton.style('background-color', 'pink');
+    duskButton.style('border-radius', '30px');
+    duskButton.style('font-size', '20px');
+    duskButton.style('font-family', 'Cursive');
+    duskButton.position(10, 100);
+    duskButton.mousePressed(() => {
+      currentImage = 0;
+    });
+  
+    pastelSkyButton = createButton('Pastel Sky Button');
+    pastelSkyButton.style('background-color', 'pink');
+    pastelSkyButton.style('border-radius', '30px');
+    pastelSkyButton.style('font-size', '20px');
+    pastelSkyButton.style('font-family', 'Cursive');
+    pastelSkyButton.position(200, 100);
+    pastelSkyButton.mousePressed(() => {
+      currentImage = 1;
+    });
+  
+    cottonCandyButton = createButton('Cotton Candy Button');
+    cottonCandyButton.style('background-color', 'pink');
+    cottonCandyButton.style('border-radius', '30px');
+    cottonCandyButton.style('font-size', '20px');
+    cottonCandyButton.style('font-family', 'Cursive');
+    cottonCandyButton.position(400, 100);
+    cottonCandyButton.mousePressed(() => {
+      currentImage = 2;
+    });
+  
 
   // Get the selected theme option
   // let themeOption = select().value();
@@ -372,6 +404,7 @@ function changeTheme() {
   themeUI.push(duskButton);
   themeUI.push(pastelSkyButton);
   themeUI.push(cottonCandyButton);
+  themeUI.push(returnButton);
 
 }
 
