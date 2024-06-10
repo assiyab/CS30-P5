@@ -23,7 +23,7 @@ function preload(){
   bgSound4 = loadSound("Songs/FirstLove.mp3");
   bgSound5 = loadSound("Songs/Swing.mp3");
 
-  images[0] = loadImage('Backgrounds/BG1.jpg');  // Load all necessary images
+  images[0] = loadImage('Backgrounds/BG1.jpg');  // load all necessary images
   images[1] = loadImage('Backgrounds/BG2.jpg');
   images[2] = loadImage('Backgrounds/BG3.jpg');
   images[3] = loadImage('Backgrounds/BG4.jpg');
@@ -87,7 +87,7 @@ function homePage(){
   journalButton.style('border-radius', '10px');
   journalButton.style('font-size', '16px');
   journalButton.style('font-family','Cursive')
-  journalButton.position(20, 20);
+  journalButton.position(windowWidth/2 - 250, windowHeight - 850);
   journalButton.mousePressed(journal);
 
   let quoteButton = createButton('Quote of the Day');
@@ -95,7 +95,7 @@ function homePage(){
   quoteButton.style('border-radius', '10px');
   quoteButton.style('font-size', '16px');
   quoteButton.style('font-family','Cursive')
-  quoteButton.position(120, 20);
+  quoteButton.position(windowWidth/2 - 160, windowHeight - 850);
   quoteButton.mousePressed(quoteGenerator);
   
   let themeButton = createButton('Change Theme');
@@ -103,7 +103,7 @@ function homePage(){
   themeButton.style('border-radius', '10px');
   themeButton.style('font-size', '16px');
   themeButton.style('font-family','Cursive')
-  themeButton.position(280, 20);
+  themeButton.position(windowWidth/2, windowHeight - 850);
   themeButton.mousePressed(changeTheme);
 
   let songsButton = createButton('Songs');
@@ -111,7 +111,7 @@ function homePage(){
   songsButton.style('border-radius', '10px');
   songsButton.style('font-size', '16px');
   songsButton.style('font-family','Cursive')
-  songsButton.position(440, 20);
+  songsButton.position(windowWidth/2 + 150, windowHeight - 850);
   songsButton.mousePressed(songs);
 
   menuUI.push(journalButton);
@@ -123,7 +123,7 @@ function homePage(){
 
 
 function journal(){
-  hideUI(menuUI)
+  hideUI(menuUI);
   fill(255);
   rect(0, 0, windowWidth, windowHeight);
 
@@ -145,7 +145,7 @@ function journal(){
   submitButton.style('border-radius', '15px');
   submitButton.style('font-size', '20px');
   submitButton.style('font-family','Cursive')
-  submitButton.position(20, 370); // Position the submit button    
+  submitButton.position(windowWidth/2 - 265, windowHeight - 580); // Position the submit button    
   
   submitButton.mousePressed(() => {
     let entry = journalEntry.value(); // Get the text entered by the user
@@ -168,6 +168,7 @@ function journal(){
     homePage();
   });
 
+
   //journalUI.push(journalPage);
   journalUI.push(journalTitle);
   journalUI.push(journalEntry);
@@ -177,7 +178,6 @@ function journal(){
 
 
 function songs(){
-
   hideUI(menuUI)
   fill(255);
   rect(0, 0, windowWidth, windowHeight);
@@ -330,7 +330,7 @@ function changeTheme() {
     duskButton.style('border-radius', '30px');
     duskButton.style('font-size', '20px');
     duskButton.style('font-family', 'Cursive');
-    duskButton.position(10, 100);
+    duskButton.position(windowWidth/2, windowHeight - 850);
     duskButton.mousePressed(() => {
       currentImage = 0;
     });
@@ -340,7 +340,7 @@ function changeTheme() {
     pastelSkyButton.style('border-radius', '30px');
     pastelSkyButton.style('font-size', '20px');
     pastelSkyButton.style('font-family', 'Cursive');
-    pastelSkyButton.position(200, 100);
+    pastelSkyButton.position(windowWidth/2, windowHeight - 750);
     pastelSkyButton.mousePressed(() => {
       currentImage = 1;
     });
@@ -350,9 +350,39 @@ function changeTheme() {
     cottonCandyButton.style('border-radius', '30px');
     cottonCandyButton.style('font-size', '20px');
     cottonCandyButton.style('font-family', 'Cursive');
-    cottonCandyButton.position(400, 100);
+    cottonCandyButton.position(windowWidth/2, windowHeight - 650);
     cottonCandyButton.mousePressed(() => {
       currentImage = 2;
+    });
+
+    dawnButton = createButton('Dawn Button');
+    dawnButton.style('background-color', 'pink');
+    dawnButton.style('border-radius', '30px');
+    dawnButton.style('font-size', '20px');
+    dawnButton.style('font-family', 'Cursive');
+    dawnButton.position(windowWidth/2, windowHeight - 550);
+    dawnButton.mousePressed(() => {
+      currentImage = 3;
+    });
+
+    galaxyButton = createButton('Galaxy Button');
+    galaxyButton.style('background-color', 'pink');
+    galaxyButton.style('border-radius', '30px');
+    galaxyButton.style('font-size', '20px');
+    galaxyButton.style('font-family', 'Cursive');
+    galaxyButton.position(windowWidth/2, windowHeight - 550);
+    galaxyButton.mousePressed(() => {
+      currentImage = 4;
+    });
+
+    unicornButton = createButton('Unicorn Button');
+    unicornButton.style('background-color', 'pink');
+    unicornButton.style('border-radius', '30px');
+    unicornButton.style('font-size', '20px');
+    unicornButton.style('font-family', 'Cursive');
+    unicornButton.position(windowWidth/2, windowHeight - 450);
+    unicornButton.mousePressed(() => {
+      currentImage = 5;
     });
   
 
@@ -404,6 +434,9 @@ function changeTheme() {
   themeUI.push(duskButton);
   themeUI.push(pastelSkyButton);
   themeUI.push(cottonCandyButton);
+  themeUI.push(dawnButton);
+  themeUI.push(galaxyButton);
+  themeUI.push(unicornButton);
   themeUI.push(returnButton);
 
 }
@@ -480,7 +513,7 @@ function quoteGenerator(){
 
 
   generateBtn = createButton('Generate Quote of the Day');
-  generateBtn.position(0, height - 100);
+  generateBtn.position(0, windowHeight - 100);
   generateBtn.style('background-color', 'pink');
   generateBtn.style('border-radius', '10px');
   generateBtn.style('font-size', '16px');
@@ -496,7 +529,7 @@ function quoteGenerator(){
 
   //picks another quote from same list 
   regenerateBtn = createButton('Regenerate Quote');
-  regenerateBtn.position(width - 160, height - 100);
+  regenerateBtn.position(windowWidth - 160, windowHeight - 100);
   regenerateBtn.style('background-color', 'pink');
   regenerateBtn.style('border-radius', '10px');
   regenerateBtn.style('font-size', '16px');
@@ -590,7 +623,7 @@ function regenerateQuote() {
   fill(0);
   textSize(30);
   textFont('Comic Sans MS');
-  text(quote, 100, 230, 360, 300);
+  text(quote, windowWidth/2 - 100, windowHeight - 450, 360, 300);
 }
 
 
