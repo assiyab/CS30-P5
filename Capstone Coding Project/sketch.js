@@ -70,6 +70,9 @@ function draw(){
   }
   else if(currentImage === - 2){
     showStickyNote();
+    //homePage.hide();
+    //have if statement here?
+    menuUI.hide(homePage);
   }
   else{
     image(images[currentImage], 0, 0, windowWidth, windowHeight);
@@ -178,7 +181,7 @@ function journal(){
 
 
 function songs(){
-  hideUI(menuUI)
+  hideUI(menuUI);
   fill(255);
   rect(0, 0, windowWidth, windowHeight);
 
@@ -298,7 +301,7 @@ function returnHome(){
   returnButton.style('font-size', '20px');
   returnButton.style('font-family','Cursive')
   returnButton.position(width/2 + 100, height/2 + 400);
-  returnButton.mousePressed(showStickyNote)
+  returnButton.mousePressed(showStickyNote);
 }
 
 let x = 0;
