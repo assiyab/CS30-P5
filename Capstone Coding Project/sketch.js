@@ -36,6 +36,7 @@ function preload(){
 function setup() {
   createCanvas(windowWidth, windowHeight);
   background(0);
+  themeButtons();
 
   exploreButton = createButton('Begin Your Self Exploration');
   exploreButton.style('background-color', 'beige');
@@ -49,7 +50,8 @@ function setup() {
   });
 
   
-
+  homePage();
+  hideUI(menuUI);
 
   //changeTheme();
   currentImage = - 1;
@@ -70,9 +72,6 @@ function draw(){
   }
   else if(currentImage === - 2){
     showStickyNote();
-    //homePage.hide();
-    //have if statement here?
-    menuUI.hide(homePage);
   }
   else{
     image(images[currentImage], 0, 0, windowWidth, windowHeight);
@@ -91,7 +90,10 @@ function homePage(){
   journalButton.style('font-size', '16px');
   journalButton.style('font-family','Cursive')
   journalButton.position(windowWidth/2 - 250, windowHeight - 850);
-  journalButton.mousePressed(journal);
+  journalButton.mousePressed(() => {
+    hideUI(menuUI);
+    journal();
+  });
 
   let quoteButton = createButton('Quote of the Day');
   quoteButton.style('background-color', 'beige');
@@ -99,7 +101,10 @@ function homePage(){
   quoteButton.style('font-size', '16px');
   quoteButton.style('font-family','Cursive')
   quoteButton.position(windowWidth/2 - 160, windowHeight - 850);
-  quoteButton.mousePressed(quoteGenerator);
+  quoteButton.mousePressed(() => {
+    hideUI(menuUI);
+    quoteGenerator();
+  });
   
   let themeButton = createButton('Change Theme');
   themeButton.style('background-color', 'beige');
@@ -107,7 +112,10 @@ function homePage(){
   themeButton.style('font-size', '16px');
   themeButton.style('font-family','Cursive')
   themeButton.position(windowWidth/2, windowHeight - 850);
-  themeButton.mousePressed(changeTheme);
+  themeButton.mousePressed(() => {
+    hideUI(menuUI);
+    changeTheme();
+  });
 
   let songsButton = createButton('Songs');
   songsButton.style('background-color', 'beige');
@@ -115,7 +123,10 @@ function homePage(){
   songsButton.style('font-size', '16px');
   songsButton.style('font-family','Cursive')
   songsButton.position(windowWidth/2 + 150, windowHeight - 850);
-  songsButton.mousePressed(songs);
+  songsButton.mousePressed(() => {
+    hideUI(menuUI);
+    songs();
+  });
 
   menuUI.push(journalButton);
   menuUI.push(quoteButton);
@@ -168,7 +179,7 @@ function journal(){
   
   returnButton.mousePressed(() => {
     hideUI(journalUI);
-    homePage();
+    showUI(menuUI);
   });
 
 
@@ -250,7 +261,7 @@ function songs(){
   
   returnButton.mousePressed(() => {
     hideUI(songsUI)
-    homePage();
+    showUI(menuUI);
   });
 
   //songsUI.push(songsPage);
@@ -290,7 +301,7 @@ function showStickyNote() {
   rect(0, 0, windowWidth, windowHeight);
   fill(0);
   textSize(16);
-  homePage();
+  showUI(menuUI);
 }
 
 
@@ -319,9 +330,13 @@ function looper() {
 
 
 function changeTheme() {
-  hideUI(menuUI);
   fill(255);
   rect(0, 0, windowWidth, windowHeight);
+  hideUI(menuUI);
+  showUI(themeUI);
+}
+function themeButtons(){
+  
 
   //themePage = createDiv(''); // Create a div element for the journal page to store other elements in the div element
   //themePage.position(0, 0); // Position the journal page
@@ -430,7 +445,7 @@ function changeTheme() {
   
   returnButton.mousePressed(() => {
     hideUI(themeUI);
-    homePage();
+    showUI(menuUI);
   });
 
   // themeUI.push(themePage);
@@ -505,11 +520,9 @@ function quoteGenerator(){
     ]
   };
 
-  quotePage = createDiv(''); // Create a div element for the journal page to store other elements in the div element
-  quotePage.position(0, 0); // Position the journal page
-  quotePage.size(windowWidth, windowHeight); // Set the size of the journal page
-  quotePage.style('background-color', 'beige'); // Set background color to beige
-  //Arrays of positive and negative words
+  hideUI(menuUI);
+  fill(255);
+  rect(0, 0, windowWidth, windowHeight);
 
   quoteTitle = createElement('h1', 'Quote Generator'); // Create a heading for the journal title
   quoteTitle.position(20, -5); // Position the journal title
@@ -550,10 +563,11 @@ function quoteGenerator(){
   returnButton.mousePressed(showStickyNote)
   
   returnButton.mousePressed(() => {
-    hideUI(quoteUI)
+    hideUI(quoteUI);
+    showUI(menuUI);
   });
 
-  quoteUI.push(quotePage);
+  //quoteUI.push(quotePage);
   quoteUI.push(quoteTitle);
   quoteUI.push(generateBtn);
   quoteUI.push(regenerateBtn);
